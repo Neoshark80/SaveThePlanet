@@ -2,6 +2,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.TimerTask;
+import java.util.Timer;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -58,6 +60,17 @@ public class Fenetre extends JFrame {
 		north.setBorder(BorderFactory.createLineBorder(Color.black));
 		container.add(north, BorderLayout.NORTH);
 
+		// Le timer tueur d'arbre 
+		Timer arbrepocalypse = new Timer();
+		arbrepocalypse.schedule(new TimerTask() {
+			public void run() {
+				if (arbreDansMaForet > 50) {
+					arbreDansMaForet -= (arbreDansMaForet / 20);
+					quantiteArbreString = Integer.toString(arbreDansMaForet);
+					ecran.setText(quantiteArbreString);
+				}
+			}
+		}, 0, 500);
 	}
 
 	// Cette méthode est censé définir le nombre d'arbre qui seront planté à chaque
@@ -70,19 +83,11 @@ public class Fenetre extends JFrame {
 		}
 	}
 
-	// Cette méthode sert à planter les arbres, j'ai vérifié avec le sysout, mais
-	// elle ne marche pas comme je le voudrais
 	public class PlanterArbresListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-    
-			// La variable arbreAPlanter ne s'additionne pas avec arbreDansMaForet, je ne
-			// comprends pas pourquoi
 			arbreDansMaForet += arbreAPlanter;
 			quantiteArbreString = Integer.toString(arbreDansMaForet);
 			ecran.setText(quantiteArbreString);
-      
-			// le sysout sert à vérifier les valeurs de mes variables
-			System.out.println("arbre dans ma foret=" + arbreDansMaForet + "\n quantité  =" + arbreAPlanter);
 		}
 	}
 
